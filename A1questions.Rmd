@@ -1,0 +1,277 @@
+---
+title: "STAT 2450 Assignment 1 (35 points)"
+author: "Tasneem Hoque (B00841761)"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+# Guidelines
+
+1. Replace the content of the 'author' field  above by your banner ID and name.
+2. Edit and modify this Rmd file in Rstudio.
+3. When you have answered all the questions, knit this Rmd file to html or pdf format.
+4. Upload TWO files to BS: a. this completed Rmd file and b. the corresponding knitted report.
+
+In order to answer the questions, you need to fill or modify the blocks of R code.
+For example, to answer the following question:
+
+Question: how to you calculate 3+4 in R (calculate the result in a variable named a and print the value of this variable)
+
+
+```{r}
+# store the calculation in a
+# print the value of the variable a
+
+```
+
+you would enter:
+
+```{r}
+a=3+4
+a
+```
+
+and this code would receive full mark.
+
+You will also need to download the files 'wind.csv' and 'asmall.txt' on your computer and to place them in  the same folder as this Rmd file.
+
+# Question 1 [2 pts]
+
+The displacement of a combustion engine is given by the volume displaced by the pistons in all the cylinders of the engine. Because the volume of a cylinder is the area of the base of the cylinder times the height of the cylinder, one gets the following expression for the displacement of a combustion engine:
+
+π/4 x (D)^2 x stroke x number of cylinders
+
+where D is the diameter of the cylinder and stroke is the height run by the piston.
+
+The engine of a popular car, the Bolid-100 V-12,  has 12 cylinders, each with a cylinder base RADIUS of 4 inches and a stroke of 5.2 inches. 
+
+## Question 1.1 [1 pt]
+
+Use R to calculate the displacement in cubic inches for this engine
+
+```{r}
+diameter=4*2 # replace this  by the correct value (diameter of base cylinder)
+stroke=5.2
+ncyl=12
+disp=pi/4 * diameter^2* stroke * ncyl # replace this by a formula using the variables above
+disp        # print the disp variable (value of the displacement in cubic inches)
+```
+
+
+The value of the displacement in cubic inches is  `r disp`.
+
+
+## Question 1.2 [1 pt]
+
+write a code to convert this displacement in cubic centimeters, 
+knowing that one inch is 2.54 centimetres. 
+
+```{r}
+dispcc= disp * 2.54 # compute the displacement in cubic centimeters: replace NA by your conversion formula that depends on the variable disp defined above
+dispcc # print the displacement in cubic centimetres
+
+```
+
+
+
+## Question 2 [2 pts]
+
+Write a R code that creates the truth table of the logical function 
+
+$$ !(a \wedge b)$$
+
+This formula means not(a AND b), where a and b are logical variables that can take any of the 2 boolean values T  or F. T is a shortcut for TRUE and F is a shortcut for FALSE.
+
+So we want to produce a table of 3 columns, as done in the lectures, where column 1 has the values of a, column 2 has the values of b, and column 3 has the values of the logical function.
+
+
+```{r}
+a=c(T,F,T,F) # replace NA by a vector of 4 logical values
+b=c(T,T,F,F) # replace NA by a vector of 4 logical values
+M=cbind(a,b,!(a&b)) # replace NA by a column bind of a , b and your logical function
+# now add a line of code to print M:
+M
+```
+
+
+## Question 3 [5 pts]
+
+The probability density function of a gamma distribution with
+shape parameter k and scale parameter theta is the function given by the following formula:
+
+$$ y=f(x|k,\theta)=\frac{1}{\Gamma(k)\theta^k}x^{k-1}e^{-x/\theta}$$
+
+Write a R code to calculate this function for x=2 when k is 3 and theta is 4.
+Use the variable name y to store the result of your computation and  print y. 
+
+You will need to use the exponential function and the gamma function, which are both available in R.
+
+For example $e^3$ and $\Gamma(5)$ can be calculated like this in R:
+
+```{r}
+exp(3)
+gamma(5)
+```
+
+
+```{r}
+x=2
+k=3
+theta=4
+y=(1/(gamma(k)*theta^k))*(x^(k-1)*exp(-x/theta)) # replace this by the formula of the gamma function
+y # print the value of y
+
+```
+
+The value of y is  `r y`
+
+
+To check that your calculation is right, you can execute this cell of code and you should find the same result as y:
+
+```{r}
+dgamma(x,k,scale=theta)
+
+```
+
+
+## Question 4 [13  pts]
+
+Download the file asmall.txt from BS and place it in the same folder as your Rmd file.
+
+    + Read the numbers contained in file asmall.txt into a vector named w ( use the "scan" command). Print the vector w. [2 pts]
+    
+```{r}
+
+w = scan("asmall.txt")
+w
+
+```
+    
+    + Arrange the vector w into a matrix named m1 with 5 rows and 3 columns, where the first 3 numbers in the vector are in the first row of m1, the next 3 numbers of w in the second row of m1, and so on.  Use the matrix command, with the "byrow=T" argument. Print the matrix. [2 pts]
+    
+    
+```{r}
+m1=matrix(w,nrow=5,ncol=3,byrow=T) # replace this
+m1# print m1
+
+```
+     
+    
+    +  Arrange w into a matrix named m2 with 3 rows and 5 columns, where the first 5 numbers in the vector w are in the first column, the next 5 numbers in the second column, etc.  Print the matrix m2. [2 pts]
+
+    
+```{r}
+m2=matrix(w,nrow=3,ncol=5,byrow=F)
+m2# print the matrix m2
+
+```   
+    
+    + Calculate, and print, the matrix product named m3 of the  matrices m1 and m2, using the matrix multiplication operator "%*%. Use the name m3 for the result. [2 pts]
+    
+```{r}
+m3=m1 %*% m2 # compute the product of the two matrices m1 and m2
+m3# print m3
+
+```
+ 
+    + Use the "det" command to calculate the determinant of matrix m3. Save the result in a object called m3det, and print m3det. [2 pts]
+    
+```{r}
+m3det = det(m3)
+m3det
+
+```
+    
+    + Use the "dim" command to get the dimensions of the product matrix m3, save this in variable m3dim and print m3dim. [1 pt]
+
+```{r}
+
+m3dim = dim(m3)
+m3dim
+```
+
+    +  extract the second column and the fourth column of the matrix m3 to form a new matrix m24 (which hence has 2 columns), and print m24 [2 pts]
+
+```{r}
+m24 = m3 [,c(2,4)]
+m24
+```
+
+The value of the M1 is  `r m1`
+
+The value of the M2 is  `r m2`
+
+The value of the Mprod is  `r m3`
+
+The value of the det is  `r m3det`
+
+The dimension of m3 is `r m3dim`
+
+m24 is `r m24`
+
+## Question 5 [13=3+5+5 pts]
+
+The file Wind.csv contains data on an outcome variable "wind", which records the wind speeds at various time of the year and locations. Wind speeds are recorded in kilometres per hour (km/h). Two other variables are also recorded: the month of the year when wind speed was recorded and the temperature at the same location, in degree Celsius.
+
+### 5.1 [3 pts]
+
+Use the **read.csv** command to read the data file wind.csv into a data frame called mydata.
+
+Use the str command to see the structure of the dataframe mydata.
+
+Use the summary command to get summary statistics for all of the variables in the dataframe. 
+
+
+```{r}
+mydata = read.csv("wind.csv",
+   header=T,quote="")
+str(mydata)
+head(mydata)
+summary(mydata)
+```
+
+###  5.2 [5 pts]
+
+Make boxplots of the distributions of wind speeds (column 'wind') grouped by months (column 'month'). Make sure to add appropriate labels to the X and Y axes, and add a title to the plot. 
+
+The syntax for the boxplot command is in the Rintro notes.
+
+In order to do this, you need to either attach the created data frame prior to using the plot command, or include the "data=mydata" option in your call to the boxplot function. I recommend the second solution.
+
+
+```{r}
+mydata
+boxplot(mydata$X.wind~mydata$X.month, data=mydata, main="Speed of wind data",
+   xlab="Month", ylab="Wind Speed")
+```
+
+
+###  5.3 [5 pts]
+
+Make a scatterplot (function plot) with wind speeds (column 'wind') on the Y axis and temperatures (column 'temp') on the X axis. 
+
+Make sure to label the axes.
+
+Choose 'Temperature (Celsius)' as label for the x-axis.
+
+Choose 'Wind speed (km/h)' as label for the y-axis.
+
+Choose 'Wind speed vs Temperature' as title for the plot.
+
+You can use the 'main' argument for the title and the xlab and ylab arguments for the axis labels.  
+
+Use the red color for points, a point choice of 19, a point size (parameter cex) of 1.
+
+If you have "attached" the data frame, you won't need the "data=mydata" syntax on the command line. Otherwise, you will. I recommend that you use the 'data=mydata
+ argument here (so: no need to attach the dataframe).
+
+
+```{r}
+plot(mydata$X.temp, mydata$Y.wind,main="Wind speed vs Temprature",
+   xlab="Temperature (Celsius)", ylab="Wind speed (km/h)", pch=19, col=rgb(1,0,0,1), cex=1)
+
+```
+
